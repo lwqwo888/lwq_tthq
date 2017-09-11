@@ -6,7 +6,7 @@ class UserInfo(models.Model):
     # 帐户
     Uname = models.CharField(max_length=20)
     # 密码
-    UpassWord = models.CharField(max_length=20)
+    Upwd = models.CharField(max_length=20)
     # 电话
     Utel =  models.CharField(max_length=20)
     # 邮箱
