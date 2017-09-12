@@ -27,8 +27,27 @@ def info(requset):
     # return redirect('/login/')
     return render(requset, 'User/login.html')
 def log(requset):
-    # 创建一个request.POST对象ulog
+    # 创建一个request.POST对象ulog     startswith
     ulog = requset.POST
-    lname = ulog.get('name_input')
-    lpwd = ulog.get('pass_input')
-    
+
+
+    # dname---< class 'str'> 获取用户输入的用户名是字符串类型.
+    lname = ulog.get('username')
+
+    lpwd = ulog.get('pwd')
+
+    dname = UserInfo.objects.filter(Uname__contains=lname)
+
+    # <class 'User.models.UserInfo'> 获取数据库里保存的用户名是对象
+    dname1 = str(dname[0])
+    # 分别打印dname1和lname可以看到是不同类型的相同值,
+    # 所以要把dname转字符串才能比较
+    print(type(dname1),type(lname))
+
+
+    # return render(requset,'/User/index.html',dname1)
+    if lname == dname1:
+        print('haha')
+
+        return render(requset,'Goods/index.html')
+
