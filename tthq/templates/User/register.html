@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="/static/js/register.js"></script>
+{#    <script type="text/javascript" src="/static/js/zhuce.js"></script>#}
 </head>
 <body>
 	<div class="register_con">
@@ -23,10 +24,11 @@
 			</div>
 			<div class="reg_form clearfix">
                 {#form表单请求使用post方式,发送到info#}
-				<form action="/info/" method="post">
+				<form action="/info/" method="post" id="reg_form">
 				<ul>
 					<li>
 						<label>用户名:</label>
+{#                        表单的操作,有name才能被提交#}
 						<input type="text" name="user_name" id="user_name">
 						<span class="error_tip">提示信息</span>
 					</li>					

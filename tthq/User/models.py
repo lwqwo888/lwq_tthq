@@ -5,8 +5,8 @@ from django.db import models
 class UserInfo(models.Model):
     # 帐户
     Uname = models.CharField(verbose_name='用户名',max_length=20)
-    # 密码
-    Upwd = models.CharField(verbose_name='密码',max_length=20)
+    # 密码  SHA512有512bits所以这里设置长度为600
+    Upwd = models.CharField(verbose_name='密码',max_length=600)
     # 电话
     Utel =  models.CharField(verbose_name='用户电话',max_length=20)
     # 邮箱
