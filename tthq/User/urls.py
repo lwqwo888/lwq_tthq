@@ -8,4 +8,5 @@ urlpatterns=[
     url(r'^log/$',views.log),
     url(r'^jason/$',views.detection_name),
     url(r'^active(\d+)/$',views.active),
+    url(r'^',views.index),
 ]

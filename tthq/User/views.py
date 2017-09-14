@@ -4,6 +4,8 @@ from .models import *
 from hashlib import sha512
 from django.conf import settings
 from django.core.mail import send_mail
+def index(requset):
+    return render(requset,'Goods/index.html')
 # 注册页面
 def register(request):
     return render(request,'User/register.html')
@@ -35,7 +37,23 @@ def user_input(requset):
     user.Uemail=uemail
     user.save()
     # 发送激活邮件
-    msg = "<a href='http://127.0.0.1:8000/User/active%s/'>点击激活</a>"%(user.id)
+    # 构建邮件内容
+    msg = "<div>Email 地址验证<br><br>" \
+          "尊敬的: <span style='font-size: 28px;'><B>%s</B></span><br>" \
+          "这封信是由 <B>天天花钱网</B> 发送的。<br><br>" \
+          "您收到这封邮件，是由于在 <B>天天花钱网</B> 进行了新用户注册，或用户修改 Email 使用 了这个邮箱地址。如果您并没有访问过 <B>天天花钱网</B>，或没有进行上述操作，请忽 略这封邮件。您不需要退订或进行其他进一步的操作。<br><br>" \
+          "----------------------------------------------------------------------<br>" \
+          "帐号激活说明<br>" \
+          "----------------------------------------------------------------------<br><br>" \
+          "如果您是 <B>天天花钱网</B> 的新用户，或在修改您的注册 Email 时使用了本地址，我们需要对您的地址有效性进行验证以避免垃圾邮件或地址被滥用。<br>" \
+          '您只需点击下面的"立即激活"即可激活您的帐号：<br>' \
+          "<a href='http://127.0.0.1:8000/User/active%d/'>-------->立即激活<--------</a><br>" \
+          '(如果上述方法未能激活,请"<a href="http://127.0.0.1:8000/index/">点此进入</a>"<B>天天花钱网</B>首页,点击下方联系我们,客服妹妹将为您激活)<br><br>' \
+          "<B>感谢您的访问，祝您使用愉快！</B><br><br>" \
+          "<B>此致</B>!<br>"\
+          "<B>天天花钱网 扶她 管理团队.</B><br>" \
+          "</div>"%(user.Uname,user.id)
+    # 邮件主题,邮件来源,收件人,邮件内容
     send_mail('天天花钱用户激活','',settings.EMAIL_FROM,[uemail],html_message=msg)
     return HttpResponse('邮件已发送,请到邮箱激活')
 
@@ -97,9 +115,13 @@ def detection_name(requset):
     #         return HttpResponse("True")
     #     else:
     #         return HttpResponse('False')
+
 # 发送激活邮件
 def active(request,uid):
+    # 获取用户对象
     user = UserInfo.objects.get(id=uid)
+    # 激活用户
     user.UisActive = True
+    # 保存
     user.save()
-    return HttpResponse("账户以激活,<a href='/User/login/'>点击激活</a>")
+    return HttpResponse("账户以激活,<a href='/User/login/'>点击登录</a>")
