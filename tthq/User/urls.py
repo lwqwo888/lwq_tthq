@@ -9,4 +9,6 @@ urlpatterns=[
     url(r'^jason/$',views.detection_name),
     url(r'^active(\d+)/$',views.active),
     url(r'^',views.index),
+    url(r'^font/$',views.font),
+    url(r'^logging/$',views.logging),# 临时,可删
 ]

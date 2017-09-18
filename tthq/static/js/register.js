@@ -28,12 +28,16 @@ $(function(){
 		{
 			error_check = false;
 			$(this).siblings('span').hide();
-		}
+			$('#cuohao5').hide();
+            // $('#duihao5').show();
+        }
 		else
 		{
 			error_check = true;
 			$(this).siblings('span').html('请勾选同意');
 			$(this).siblings('span').show();
+            $('#cuohao5').show();
+            // $('#duihao5').hide();
 		}
 	});
 
@@ -44,6 +48,7 @@ $(function(){
 		{
 			$('#user_name').next().html('请输入5-20个字符的用户名');
 			$('#user_name').next().show();
+			$('#cuohao1').show();
 			error_name = true;
         }
 		else
@@ -58,8 +63,9 @@ $(function(){
 			// $.get('/jason/',{'jason':juname},function (data) {
 
 			// console.log('222222222');
+
             // ajax方法二.拼接url
-            $.get("/jason/?jason="+$('#user_name').val(),function (data) {
+            $.get("/User/jason/?jason="+$('#user_name').val(),function (data) {
 				// 传到ajax的返回值是object对象
             	console.log(typeof(data));
 				// 从data中使用count取值是int
@@ -70,11 +76,15 @@ $(function(){
 					console.log('6666666');
                 	$('#user_name').next().html('用户名已存在,请重新输入或登录');
                 	$('#user_name').next().show();
+                	$('#cuohao1').show();
+					// alert($('#cuohao1'));
                 	error_name = true;
             	}
             	else
 				{
                     $('#user_name').next().hide();
+                    $('#cuohao1').hide();
+                    $('#duihao1').show();
                     error_name = false;
                 }
             });
@@ -86,13 +96,17 @@ $(function(){
 		var len = $('#pwd').val().length;
 		if(len<8||len>20)
 		{
-			$('#pwd').next().html('密码最少8位，最长20位')
+			alert("8888888");
+			$('#pwd').next().html('密码最少8位，最长20位');
 			$('#pwd').next().show();
+			$('#cuohao2').show();
 			error_password = true;
 		}
 		else
 		{
 			$('#pwd').next().hide();
+			$('#cuohao2').hide();
+			$('#duihao2').show();
 			error_password = false;
 
 		}		
@@ -107,11 +121,14 @@ $(function(){
 		{
 			$('#cpwd').next().html('两次输入的密码不一致')
 			$('#cpwd').next().show();
+			$('#cuohao3').show();
 			error_check_password = true;
 		}
 		else
 		{
 			$('#cpwd').next().hide();
+			$('#cuohao3').hide();
+			$('#duihao3').show();
 			error_check_password = false;
 		}		
 		
@@ -123,13 +140,17 @@ $(function(){
 		if(re.test($('#email').val()))
 		{
 			$('#email').next().hide();
+			$('#cuohao4').hide();
+			$('#duihao4').show();
 			error_email = false;
 		}
 		else
 		{
 			$('#email').next().html('你输入的邮箱格式不正确')
 			$('#email').next().show();
-			error_check_password = true;
+			$('#cuohao4').show()
+			// $('#cuohao4').show();
+			error_email = true;
 		}
 
 	}
@@ -154,4 +175,4 @@ $(function(){
 
 
 
-})
+});

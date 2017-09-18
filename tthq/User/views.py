@@ -4,6 +4,8 @@ from .models import *
 from hashlib import sha512
 from django.conf import settings
 from django.core.mail import send_mail
+import time
+
 def index(requset):
     return render(requset,'Goods/index.html')
 # 注册页面
@@ -37,25 +39,44 @@ def user_input(requset):
     user.Uemail=uemail
     user.save()
     # 发送激活邮件
+    # 获取日期
+    ymd = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    # 获取时间
+    ms = time.strftime('%H:%M:%S', time.localtime(time.time()))
     # 构建邮件内容
-    msg = "<div>Email 地址验证<br><br>" \
-          "尊敬的: <span style='font-size: 28px;'><B>%s</B></span><br>" \
-          "这封信是由 <B>天天花钱网</B> 发送的。<br><br>" \
-          "您收到这封邮件，是由于在 <B>天天花钱网</B> 进行了新用户注册，或用户修改 Email 使用 了这个邮箱地址。如果您并没有访问过 <B>天天花钱网</B>，或没有进行上述操作，请忽 略这封邮件。您不需要退订或进行其他进一步的操作。<br><br>" \
-          "----------------------------------------------------------------------<br>" \
-          "帐号激活说明<br>" \
-          "----------------------------------------------------------------------<br><br>" \
-          "如果您是 <B>天天花钱网</B> 的新用户，或在修改您的注册 Email 时使用了本地址，我们需要对您的地址有效性进行验证以避免垃圾邮件或地址被滥用。<br>" \
-          '您只需点击下面的"立即激活"即可激活您的帐号：<br>' \
-          "<a href='http://127.0.0.1:8000/User/active%d/'>-------->立即激活<--------</a><br>" \
-          '(如果上述方法未能激活,请"<a href="http://127.0.0.1:8000/index/">点此进入</a>"<B>天天花钱网</B>首页,点击下方联系我们,客服妹妹将为您激活)<br><br>' \
-          "<B>感谢您的访问，祝您使用愉快！</B><br><br>" \
-          "<B>此致</B>!<br>"\
-          "<B>天天花钱网 扶她 管理团队.</B><br>" \
-          "</div>"%(user.Uname,user.id)
+    msg = '''    <div style="margin:0 auto; width:700px; box-shadow:0 0 10px rgba(0, 0, 0, 0.2); font-family:'Helvetica Neue',Helvetica,Arial,Microsoft YaHei,sans-serif;">
+    ''' \
+          '''        <div style="padding-left:180px; height:60px; line-height:63px; border-radius:3px 3px 0 0; font-size:18px; font-weight:100; color:#fff; background:url(http://upload.ouliu.net/i/20170914231020j8rl8.png) #337ab7 no-repeat 15px; overflow:hidden;"><span style="margin-left: 100px;">&#9;请激活您的帐号</span></div>
+''' \
+          '''        <div style="padding:15px 30px 93px; min-height:350px; font-size:14px; word-wrap:break-word; border:#c5c5c5 solid; border-width:0 1px; line-height:24px; overflow:hidden; position:relative;">
+''' \
+          '''            <p><strong style="font-size: 24px;">Hi，%s：</strong></p>
+''' \
+          '''            <p style="padding:5px 0; text-indent:2em;">您收到这封邮件，是由于在 天天花钱网 进行了新用户注册而使用了这个邮箱地址。如果您并没有访问过 天天花钱网，或没有进行上述操作，请忽略这封邮件，您不需要退订或进行其他任何操作，很抱歉打扰您。</p>
+''' \
+          '''            <b style="display:block; margin-top:30px; color:#c00;">帐号激活说明</b>
+''' \
+          '''            <p style="padding:5px 0; text-indent:2em;">如果您是 天天花钱网 的新用户，或在修改您的注册 Email 时使用了本地址，我们需要对您的地址有效性进行验证以避免垃圾邮件或地址被滥用。</p>
+''' \
+          '''            <p>您只需点击下面的链接，即可激活您的帐号，<span style="color:#c00;">为了保障帐号的安全性，请在2小时完成验证</span>：</p>
+ ''' \
+          '''            <div style="margin:10px 0; padding:10px; border:1px #67c4f0 solid; text-align:left; font-size:14px; background:#d9edf7;"><a href='http://127.0.0.1:8000/User/active%d/'>http://127.0.0.1:8000/User/active%d</a></div>
+ ''' \
+          '''            <p style="color:#666;">(如果上面不是链接形式，请将该地址手工粘贴到浏览器地址栏再访问)</p>
+ ''' \
+          '''            <p>感谢您的访问，祝您使用愉快！</p><div style="left:0; bottom:0; right:0; padding:15px; height:48px; background:#f0f0f0; text-align:right; position:absolute;"><a style="color:#05a; text-decoration:none; font-weight:700;" href="http://www.qdfuns.com/" target="_blank"> 天天花钱网 </a>管理组敬上<br><span style="border-bottom:1px dashed #ccc;" t="5" times=" %s">%s</span> %s</div>
+ ''' \
+          '''        </div>
+ ''' \
+          '''         <div style="height:10px; border-radius:0 0 3px 3px; border: 1px solid #c5c5c5; border-top: none; background:#337ab7 url(http://www.qdfuns.com/res/images/logos/mail/mailbottom.gif) repeat-x;"></div>
+''' \
+          '''    </div>''' %(user.Uname, user.id, user.id, ms,ymd,ms)
+
     # 邮件主题,邮件来源,收件人,邮件内容
     send_mail('天天花钱用户激活','',settings.EMAIL_FROM,[uemail],html_message=msg)
-    return HttpResponse('邮件已发送,请到邮箱激活')
+    context = {'email':uemail}
+    print(context)
+    return render(requset, 'User/font-demo.html', context)
 
     # 用redirect重新去请求匹配login正则,就可以跳转到登录页面了,或者使用render方式返回login.html
     # return redirect('/login/')
@@ -71,7 +92,7 @@ def log(requset):
 
     lpwd = ulog.get('pwd')
 
-    dname = UserInfo.objects.filter(Uname__contains=lname)
+    dname = UserInfo.objects.filter(Uname=lname)
 
     # <class 'User.models.UserInfo'> 获取数据库里保存的用户名是对象.
     dname1 = str(dname[0])
@@ -124,4 +145,10 @@ def active(request,uid):
     user.UisActive = True
     # 保存
     user.save()
-    return HttpResponse("账户以激活,<a href='/User/login/'>点击登录</a>")
+    # context = {}
+    return render(request,'User/logging.html')
+def font(requset):
+    return render(requset, 'User/temp/../templates/User/font-demo.html')
+
+def logging(requset):# 临时,可删
+    return render(requset,'User/logging.html')

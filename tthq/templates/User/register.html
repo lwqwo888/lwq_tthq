@@ -20,37 +20,47 @@
 		<div class="r_con fr">
 			<div class="reg_title clearfix">
 				<h1>用户注册</h1>
-				<a href="/login/">登录</a>
+				<a href="/User/login/">登录</a>
 			</div>
 			<div class="reg_form clearfix">
                 {#form表单请求使用post方式,发送到info#}
-				<form action="/info/" method="post" id="reg_form">
+				<form action="/User/info/" method="post" id="reg_form">
 				<ul>
-					<li>
+					<li id="input1">
 						<label>用户名:</label>
 {#                        表单的操作,有name才能被提交#}
 						<input type="text" name="user_name" id="user_name">
-						<span class="error_tip">提示信息</span>
-					</li>					
-					<li>
+                        <span class="error_tip">提示信息</span>
+                        <img src="/static/images/对号.png" class="error_tip" id="duihao1" alt=""/>
+                        <img src="/static/images/错号.png" class="error_tip" id="cuohao1" alt=""/>
+					</li>
+					<li id="input2">
 						<label>密码:</label>
 						<input type="password" name="pwd" id="pwd">
-						<span class="error_tip">提示信息</span>
+                        <span class="error_tip">提示信息</span>
+                        <img src="/static/images/对号.png" class="error_tip" id="duihao2" alt=""/>
+                        <img src="/static/images/错号.png" class="error_tip" id="cuohao2" alt=""/>
 					</li>
-					<li>
+					<li id="input3">
 						<label>确认密码:</label>
 						<input type="password" name="cpwd" id="cpwd">
-						<span class="error_tip">提示信息</span>
+                        <span class="error_tip">提示信息</span>
+                        <img src="/static/images/对号.png" class="error_tip" id="duihao3" alt=""/>
+                        <img src="/static/images/错号.png" class="error_tip" id="cuohao3" alt=""/>
 					</li>
-					<li>
+					<li id="input4">
 						<label>邮箱:</label>
 						<input type="text" name="email" id="email">
-						<span class="error_tip">提示信息</span>
+                        <span class="error_tip">提示信息</span>
+                        <img src="/static/images/对号.png" class="error_tip" id="duihao4" alt=""/>
+                        <img src="/static/images/错号.png" class="error_tip" id="cuohao4" alt=""/>
 					</li>
-					<li class="agreement">
+					<li class="agreement" id="input5">
 						<input type="checkbox" name="allow" id="allow" checked="checked">
 						<label>同意”天天生鲜用户使用协议“</label>
-						<span class="error_tip2">提示信息</span>
+                        <span class="error_tip2">提示信息</span>
+                        <img src="/static/images/对号.png" class="error_tip" id="duihao5" alt=""/>
+                        <img src="/static/images/错号.png" class="error_tip" id="cuohao5" alt=""/>
 					</li>
 					<li class="reg_sub">
 						<input type="submit" value="注 册" name="">
