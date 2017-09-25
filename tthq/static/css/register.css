@@ -1,0 +1,42 @@
+/* CSS Document */
+
+.container{margin:0 auto;} /* .container{margin:60px auto;} */
+.container h2{text-align:center;}
+form{margin:30px auto;}/*form{margin:40px 0 0 340px;}*/
+form p{margin-bottom:10px;}
+form a{ color:#ff7702;}
+
+label{display:block; float:left; height:48px; line-height:48px; color:#F00; text-indent:10px;}
+label.one{width:90px; height:48px; text-align:right; color:#000;}
+
+input{float:left;font-size:16px; font-family:"微软雅黑"; color:#666;}
+#password,#confirm_password,.submit,#agent{border:1px solid #ccc; width:350px; height:46px; text-indent:10px;}
+/*.signupForm .submit{width:450px; margin: 0;}*/
+.identifying_code{height:46px; width:138px; _line-height:46px; text-indent:10px;}
+.get_code{height:48px; width:200px; margin-left:10px; border:1px solid #ccc; cursor:pointer;}
+
+.agreement{margin-left:90px; height:30px; line-height:30px;font-size:12px;}
+.agreement input{display:block; line-height:30px; height:12px; margin:8px 8px 0 5px; border:none; width:12px; background:url(../img/checkbox.png) no-repeat; }
+
+.submit{width:450px; margin: 10px 0px; background:#47aa34; font-size:20px; letter-spacing:4px; color:#fff; cursor:pointer;}
+
+p.last{margin-left:310px; font-size:16px;}
+p.last input{ cursor:pointer;}
+/*.pop_con .wrapper .clearfix span{
+	font-size:20px;
+	color:#4f4f4f;
+	border: none;
+}*/
+#telphone{
+	font-size:16px;
+	color:#4f4f4f;
+	border: none;
+	line-height: 46px;
+}
+.wrapper .clearfix .tel{
+	display: block;
+}
+.telnum .tel{
+	/*text-align: center;*/
+	margin-left: 90px;
+}

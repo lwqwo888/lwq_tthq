@@ -4,39 +4,145 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>天天生鲜-登录</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/login.js"></script>
+    <script>
+        $(function () {
+            if({{ uname_error|default:0 }} == 1){
+                $('#user_name').next().html('用户名错误或未激活').show();
+                error_name = true;
+            }
+            if({{ upwd_error|default:0 }} == 1){
+                $('#pwd').next().html('密码错误').show();
+                error_password = true;
+            }
+
+
+{#        --------------------------------------------------------------------              #}
+{#            $(function() {#}
+{#        // 点击按钮显示#}
+{#        $("#btn01").click(function() {#}
+{#            // console.log("show");#}
+{#            $("#pop").show();#}
+{#            // return false;#}
+{#        });#}
+{#        $('#pop').show();#}
+
+        // 点击叉叉消失
+        $("#shutoff").click(function() {
+            $("#pop").hide();
+        });
+        // })
+
+        var InterValObj; //timer变量，控制时间
+        var count = 120; //间隔函数，1秒执行
+        var curCount; //当前剩余秒数
+
+        function sendMessage() {　
+            curCount = count;　　 //设置button效果，开始计时
+            $("#btnSendCode").attr("disabled", "true");
+            $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+            　　 //向后台发送处理数据
+            $.ajax({　　
+                type: "POST", //用POST方式传输
+                　　dataType: "text", //数据格式:JSON
+                　　url: 'Login.ashx', //目标地址
+                　　data: "dealType=" + dealType + "&uid=" + uid + "&code=" + code,
+                　　error: function(XMLHttpRequest, textStatus, errorThrown) {},
+                　　success: function(msg) {}
+            });
+        }
+
+        //timer处理函数
+        function SetRemainTime() {
+            if (curCount == 0) {
+                window.clearInterval(InterValObj); //停止计时器
+                $("#btnSendCode").removeAttr("disabled"); //启用按钮
+                $("#btnSendCode").val("重新发送验证码");
+            } else {
+                curCount--;
+                $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+            }
+        }
+
+        $('#btnSendCode').click(function() {
+
+            sendMessage();
+            console.log('66666666666');
+        });
+
+
+    });
+    </script>
 </head>
 <body>
-	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
-	</div>
+    <div class="login1">
+        <div class="login_top clearfix">
+            <a href="index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
+        </div>
 
-	<div class="login_form_bg">
-		<div class="login_form_wrap clearfix">
-			<div class="login_banner fl"></div>
-			<div class="slogan fl">日夜兼程 · 急速送达</div>
-			<div class="login_form fr">
-				<div class="login_title clearfix">
-					<h1>用户登录</h1>
-					<a href="/User/register/">立即注册</a>
-				</div>
-				<div class="form_input">
-					<form action="/log/" method="post">
-						<input type="text" name="username" class="name_input" placeholder="请输入用户名">
-						<div class="user_error">输入错误</div>
-						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
-						<div class="pwd_error">输入错误</div>
-						<div class="more_input clearfix">
-							<input type="checkbox" name="">
-							<label>记住用户名</label>
-							<a href="#">忘记密码</a>
-						</div>
-						<input type="submit" name="" value="登录" class="input_submit">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="login_form_bg">
+            <div class="login_form_wrap clearfix">
+                <div class="login_banner fl"></div>
+                <div class="slogan fl">日夜兼程 · 急速送达</div>
+                <div class="login_form fr">
+                    <div class="login_title clearfix">
+                        <h1>用户登录</h1>
+                        <a href="/User/register/">立即注册</a>
+                    </div>
+                    <div class="form_input">
+                        <form action="/User/login_handle/" method="post" id="login_form">
+                            <input type="text" name="username" id="user_name" class="name_input" placeholder="请输入用户名" value="{{ uname }}">
+                            <div class="user_error">输入错误</div>
+                            <input type="password" name="pwd" id="pwd" class="pass_input" placeholder="请输入密码" value="{{ upwd }}">
+                            <div class="pwd_error">输入错误</div>
+                            <div class="more_input clearfix">
+                                <input type="checkbox" name="rem" checked="checked" value="1">
+                                <label>记住用户名</label>
+                                <a href="#">忘记密码</a>
+                            </div>
+                            <input type="submit" value="登录" class="input_submit">
+                            <input type="submit" name="" value="登录" id="login" class="input_submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tanchuang">
+        <input type="button" value="弹出弹框" id="btn01">
+        <div class="pop_main" style="display: block" id="pop">
+            <div class="pop_con">
+                <div class="pop_title">
+                    <h3>系统监测您在陌生电脑登录，请输入您的短信验证码</h3>
+                    <a href="#" id="shutoff">×</a>
+                </div>
+                <div class="wrapper container">
+                    <form id="signupForm" name="forma" method="post" action="">
+                        <p class="clearfix">
+                            <label class="one" for="telphone">手机号码：</label>
+                            <span id="telphone" name="telphone" class="required">&nbsp;&nbsp;为确保是您本人操作，请完成以下验证 </span>
+                        </p>
+                        <p class="telnum"><span class="tel"> 点击向绑定手机*******{{ dict.telnum }}发送验证码</span></p>
+                        <p class="clearfix">
+                            <label class="one">验证码&nbsp;&nbsp;&nbsp;&nbsp;：</label>
+                            <input class="identifying_code" type="text" value placeholder="请输入6位校验码" />
+                            <input class="get_code" type="button" id="btnSendCode" value="获取验证码" />
+                        </p>
+                        <p class="clearfix">
+                            <input class="submit" type="submit" value="确定" name="telphone" onsubmit="return doValidate()" />
+                        </p>
+                    </form>
+                </div>
+                <div class="pop_footer">
+                </div>
+            </div>
+            <div class="mask"></div>
+        </div>
+    </div>
 
 	<div class="footer no-mp">
 		<div class="foot_link">

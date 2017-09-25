@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/tthq.iml" filepath="$PROJECT_DIR$/.idea/tthq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../yunpian-python-sdk/.idea/yunpian-python-sdk.iml" filepath="$PROJECT_DIR$/../yunpian-python-sdk/.idea/yunpian-python-sdk.iml" />
     </modules>
   </component>
 </project>

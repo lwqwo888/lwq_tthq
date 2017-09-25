@@ -14,7 +14,7 @@ $(function () {
 
     $font.click(function () {
 
-    window.location.href = '/User';
+    window.location.href = '/User/login/';
 
   });
 });

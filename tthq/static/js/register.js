@@ -5,6 +5,7 @@ $(function(){
 	var error_check_password = false;
 	var error_email = false;
 	var error_check = false;
+	var error_tel = false;
 
 	// 用户名
 	$('#user_name').blur(function() {
@@ -18,6 +19,11 @@ $(function(){
 	$('#cpwd').blur(function() {
 		check_cpwd();
 	});
+	// 手机号
+	$('#tel').blur(function() {
+		check_user_tel();
+	});
+
 	// 邮箱
 	$('#email').blur(function() {
 		check_email();
@@ -28,7 +34,7 @@ $(function(){
 		{
 			error_check = false;
 			$(this).siblings('span').hide();
-			$('#cuohao5').hide();
+			$('#cuohao6').hide();
             // $('#duihao5').show();
         }
 		else
@@ -36,7 +42,7 @@ $(function(){
 			error_check = true;
 			$(this).siblings('span').html('请勾选同意');
 			$(this).siblings('span').show();
-            $('#cuohao5').show();
+            $('#cuohao6').show();
             // $('#duihao5').hide();
 		}
 	});
@@ -96,7 +102,7 @@ $(function(){
 		var len = $('#pwd').val().length;
 		if(len<8||len>20)
 		{
-			alert("8888888");
+			// alert("8888888");
 			$('#pwd').next().html('密码最少8位，最长20位');
 			$('#pwd').next().show();
 			$('#cuohao2').show();
@@ -119,7 +125,7 @@ $(function(){
 
 		if(pass!=cpass)
 		{
-			$('#cpwd').next().html('两次输入的密码不一致')
+			$('#cpwd').next().html('两次输入的密码不一致');
 			$('#cpwd').next().show();
 			$('#cuohao3').show();
 			error_check_password = true;
@@ -133,6 +139,26 @@ $(function(){
 		}		
 		
 	}
+	// 验证手机号合法性
+	function check_user_tel() {
+
+		// var telphoneReg = /(^[0-9]{3,4}\-[0-9]{7}$)|(^[0-9]{7}$)|(^[0-9]{3,4}[0-9]{7}$)|(^0{0,1}13[0-9]{9}$)/;
+		var telphoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
+
+		if (telphoneReg.test($('#tel').val())) {
+			$('#tel').next().hide();
+			$('#cuohao4').hide();
+			$('#duihao4').show();
+			error_tel = false;
+		} else {
+			$('#tel').next().html('您输入的手机号格式不正确');
+			$('#tel').next().show();
+			$('#cuohao4').show();
+			// $('#cuohao4').show();
+			error_tel = true;
+		}
+
+	}
 
 	function check_email(){
 		var re = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
@@ -140,15 +166,15 @@ $(function(){
 		if(re.test($('#email').val()))
 		{
 			$('#email').next().hide();
-			$('#cuohao4').hide();
-			$('#duihao4').show();
+			$('#cuohao5').hide();
+			$('#duihao5').show();
 			error_email = false;
 		}
 		else
 		{
-			$('#email').next().html('你输入的邮箱格式不正确')
+			$('#email').next().html('你输入的邮箱格式不正确');
 			$('#email').next().show();
-			$('#cuohao4').show()
+			$('#cuohao5').show();
 			// $('#cuohao4').show();
 			error_email = true;
 		}
@@ -161,8 +187,9 @@ $(function(){
 		check_pwd();
 		check_cpwd();
 		check_email();
+		check_user_tel();
 
-		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
+		if(error_name == false && error_password == false && error_check_password == false && error_tel == false && error_email == false && error_check == false)
 		{
 			return true;
 		}
